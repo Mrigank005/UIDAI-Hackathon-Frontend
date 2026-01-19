@@ -1,5 +1,5 @@
 import { Shield, Activity, ClipboardList, Map, Download, Menu, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { TabType } from '@/types/dashboard';
 import { cn } from '@/lib/utils';
@@ -12,11 +12,11 @@ interface DashboardSidebarProps {
   onToggle: () => void;
 }
 
-const navItems: { id: TabType; label: string; sublabel: string; icon: typeof Shield }[] = [
-  { id: 'satark', label: 'Satark', sublabel: 'Security & Fraud', icon: Shield },
-  { id: 'saksham', label: 'Saksham', sublabel: 'MBU Compliance', icon: Activity },
-  { id: 'kartavya', label: 'Kartavya', sublabel: 'Field Operations', icon: ClipboardList },
-  { id: 'pravas', label: 'Pravas', sublabel: 'Migration Trends', icon: Map },
+const navItems: { id: TabType; label: string; sublabel: string; icon: typeof Shield; path: string }[] = [
+  { id: 'satark', label: 'Satark', sublabel: 'Security & Fraud', icon: Shield, path: '/satark' },
+  { id: 'saksham', label: 'Saksham', sublabel: 'MBU Compliance', icon: Activity, path: '/saksham' },
+  { id: 'kartavya', label: 'Kartavya', sublabel: 'Field Operations', icon: ClipboardList, path: '/kartavya' },
+  { id: 'pravas', label: 'Pravas', sublabel: 'Migration Trends', icon: Map, path: '/pravas' },
 ];
 
 export function DashboardSidebar({ 
@@ -37,31 +37,24 @@ export function DashboardSidebar({
       </button>
 
       {/* Overlay for mobile */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="lg:hidden fixed inset-0 bg-black/50 z-40"
-            onClick={onToggle}
-          />
-        )}
-      </AnimatePresence>
+      {isOpen && (
+        <div
+          className="lg:hidden fixed inset-0 bg-black/50 z-40 transition-opacity"
+          onClick={onToggle}
+        />
+      )}
 
       {/* Sidebar */}
-      <motion.aside
-        initial={false}
-        animate={{ x: isOpen ? 0 : '-100%' }}
-        transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+      <aside
         className={cn(
-          "fixed lg:static inset-y-0 left-0 z-40 w-64 bg-sidebar text-sidebar-foreground flex flex-col",
+          "fixed lg:static inset-y-0 left-0 z-40 w-64 bg-sidebar text-sidebar-foreground flex flex-col transition-transform duration-300 ease-in-out",
+          isOpen ? "translate-x-0" : "-translate-x-full",
           "lg:translate-x-0"
         )}
       >
         {/* Logo/Title */}
         <div className="p-6 border-b border-sidebar-border">
-          <div className="flex items-center gap-3">
+          <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
             <div className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center">
               <Shield className="w-6 h-6 text-accent-foreground" />
             </div>
@@ -69,7 +62,7 @@ export function DashboardSidebar({
               <h1 className="font-bold text-lg">UIDAI</h1>
               <p className="text-xs text-sidebar-foreground/70">OpsCommand</p>
             </div>
-          </div>
+          </Link>
         </div>
 
         {/* Navigation */}
@@ -79,8 +72,9 @@ export function DashboardSidebar({
             const isActive = activeTab === item.id;
             
             return (
-              <button
+              <Link
                 key={item.id}
+                to={item.path}
                 onClick={() => {
                   onTabChange(item.id);
                   if (window.innerWidth < 1024) onToggle();
@@ -102,7 +96,7 @@ export function DashboardSidebar({
                     {item.sublabel}
                   </div>
                 </div>
-              </button>
+              </Link>
             );
           })}
         </nav>
@@ -121,10 +115,11 @@ export function DashboardSidebar({
 
         {/* Footer */}
         <div className="p-4 text-center text-xs text-sidebar-foreground/50">
-          <p>© 2024 UIDAI</p>
-          <p>Government of India</p>
+            <p>© {new Date().getFullYear()} UIDAI</p>
+            <p>Government of India</p>
         </div>
-      </motion.aside>
+      </aside>
     </>
   );
 }
+

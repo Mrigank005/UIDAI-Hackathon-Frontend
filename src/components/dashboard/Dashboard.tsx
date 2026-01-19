@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Loader2 } from 'lucide-react';
 import { DashboardSidebar } from './DashboardSidebar';
@@ -12,8 +12,12 @@ import { TabType, FilterState } from '@/types/dashboard';
 import { generatePDFReport } from '@/utils/pdfGenerator';
 import { useToast } from '@/hooks/use-toast';
 
-export function Dashboard() {
-  const [activeTab, setActiveTab] = useState<TabType>('satark');
+interface DashboardProps {
+  initialTab?: TabType;
+}
+
+export function Dashboard({ initialTab = 'satark' }: DashboardProps) {
+  const [activeTab, setActiveTab] = useState<TabType>(initialTab);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [filters, setFilters] = useState<FilterState>({
     state: '',
@@ -21,6 +25,10 @@ export function Dashboard() {
     priority: '',
     search: '',
   });
+
+  useEffect(() => {
+    setActiveTab(initialTab);
+  }, [initialTab]);
 
   const { data, loading, error } = useAppData();
   const { toast } = useToast();
