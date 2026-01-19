@@ -47,7 +47,7 @@ export function DashboardSidebar({
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed lg:static inset-y-0 left-0 z-40 w-64 bg-sidebar text-sidebar-foreground flex flex-col transition-transform duration-300 ease-in-out",
+          "fixed inset-y-0 left-0 z-40 w-64 bg-sidebar text-sidebar-foreground flex flex-col transition-transform duration-300 ease-in-out h-screen overflow-hidden",
           isOpen ? "translate-x-0" : "-translate-x-full",
           "lg:translate-x-0"
         )}
@@ -66,7 +66,7 @@ export function DashboardSidebar({
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 p-4 space-y-2">
+        <nav className="flex-1 p-4 space-y-2 overflow-hidden">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
@@ -102,19 +102,19 @@ export function DashboardSidebar({
         </nav>
 
         {/* Download Report Button */}
-        <div className="p-4 border-t border-sidebar-border">
-          <Button
+        <div className="p-4 border-t border-sidebar-border flex-shrink-0">
+            <Button
             onClick={onDownloadReport}
-            variant="outline"
-            className="w-full bg-transparent border-sidebar-foreground/30 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-foreground"
-          >
+            variant="default"
+            className="w-full bg-[#ff9933] text-black hover:bg-[#fcf0c0] shadow-sm"
+            >
             <Download className="w-4 h-4 mr-2" />
             Download Report
-          </Button>
+            </Button>
         </div>
 
         {/* Footer */}
-        <div className="p-4 text-center text-xs text-sidebar-foreground/50">
+        <div className="p-4 text-center text-xs text-sidebar-foreground/50 flex-shrink-0">
             <p>© {new Date().getFullYear()} UIDAI</p>
             <p>Government of India</p>
         </div>

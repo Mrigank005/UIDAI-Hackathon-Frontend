@@ -104,7 +104,7 @@ export function Dashboard({ initialTab = 'satark' }: DashboardProps) {
       />
 
       {/* Main Content */}
-      <main className="flex-1 min-h-screen overflow-auto lg:ml-0">
+      <main className="flex-1 min-h-screen overflow-auto ml-0 lg:ml-64">
         <div className="p-4 lg:p-8 pt-16 lg:pt-8">
           {/* Filter Bar */}
           <FilterBar
