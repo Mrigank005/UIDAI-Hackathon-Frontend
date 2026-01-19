@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Activity, Users, AlertCircle } from 'lucide-react';
+import { Activity, Users, AlertCircle, HelpCircle } from 'lucide-react';
 import {
   BarChart,
   Bar,
@@ -22,6 +22,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
 interface SakshamViewProps {
   complianceData: ComplianceMapData[];
@@ -110,7 +116,7 @@ export function SakshamView({ complianceData, totalBacklog }: SakshamViewProps) 
         <MetricCard
           title="Critical Pincodes"
           value={criticalPincodes}
-          subtitle="Deficit > 1000"
+          subtitle="Deficit &gt; 1000"
           icon={AlertCircle}
           variant="warning"
           delay={0.3}
@@ -124,9 +130,27 @@ export function SakshamView({ complianceData, totalBacklog }: SakshamViewProps) 
         transition={{ delay: 0.3 }}
         className="bg-card rounded-xl border p-6"
       >
-        <h3 className="font-semibold text-foreground mb-4">
-          Top 10 Districts by MBU Deficit
-        </h3>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="font-semibold text-foreground">
+            Top 10 Districts by MBU Deficit
+          </h3>
+        </div>
+        <Accordion type="single" collapsible className="mb-4">
+          <AccordionItem value="info" className="border-none">
+            <AccordionTrigger className="text-sm text-muted-foreground hover:text-foreground py-2">
+              <div className="flex items-center gap-2">
+                <HelpCircle className="w-4 h-4" />
+                <span>What does this show?</span>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className="text-sm text-muted-foreground pb-4">
+              This chart highlights the districts with the highest number of pending Mandatory Biometric Updates (MBU). 
+              MBU compliance is critical for maintaining data accuracy and preventing identity fraud. Districts shown here 
+              require focused intervention and resource allocation to clear the backlog. The deficit represents residents 
+              who need to update their biometric information but haven't done so yet.
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
         <div className="h-[350px]">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={topDistrictsData}>
@@ -168,7 +192,23 @@ export function SakshamView({ complianceData, totalBacklog }: SakshamViewProps) 
         className="bg-card rounded-xl border overflow-hidden"
       >
         <div className="p-4 border-b">
-          <h3 className="font-semibold text-foreground">Pincode-wise MBU Deficit</h3>
+          <h3 className="font-semibold text-foreground mb-2">Pincode-wise MBU Deficit</h3>
+          <Accordion type="single" collapsible>
+            <AccordionItem value="info" className="border-none">
+              <AccordionTrigger className="text-sm text-muted-foreground hover:text-foreground py-2">
+                <div className="flex items-center gap-2">
+                  <HelpCircle className="w-4 h-4" />
+                  <span>What is MBU Deficit?</span>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="text-sm text-muted-foreground pb-2">
+                MBU (Mandatory Biometric Update) Deficit represents the number of Aadhaar holders in each pincode who are 
+                required to update their biometric information but haven't completed the process. This is particularly important 
+                for individuals whose biometrics were captured more than 10 years ago or during childhood. Pincodes marked in red 
+                (deficit {'>'} 1000) are critical areas requiring immediate enrollment camp setup and awareness campaigns.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </div>
         <div className="overflow-x-auto">
           <Table>

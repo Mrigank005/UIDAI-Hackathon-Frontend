@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Map, TrendingUp, Users, Building } from 'lucide-react';
+import { Map, TrendingUp, Users, Building, HelpCircle } from 'lucide-react';
 import {
   ScatterChart,
   Scatter,
@@ -25,6 +25,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
 interface PravasViewProps {
   migrationTickets: ActionTicket[];
@@ -148,6 +154,22 @@ export function PravasView({ migrationTickets }: PravasViewProps) {
         <h3 className="font-semibold text-foreground mb-4">
           Migration Clusters: Adults vs. Children
         </h3>
+        <Accordion type="single" collapsible className="mb-4">
+          <AccordionItem value="info" className="border-none">
+            <AccordionTrigger className="text-sm text-muted-foreground hover:text-foreground py-2">
+              <div className="flex items-center gap-2">
+                <HelpCircle className="w-4 h-4" />
+                <span>How to interpret this chart?</span>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className="text-sm text-muted-foreground pb-4">
+              This scatter plot visualizes migration patterns by comparing adult migration against young children enrollment. 
+              Bubble size represents total population movement. Areas in the bottom-right quadrant (high adult migration, low children) 
+              indicate potential "boom towns" - emerging urban centers attracting working-age population. These patterns help identify 
+              areas needing infrastructure expansion, enrollment center setup, and urban planning attention.
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
         <p className="text-sm text-muted-foreground mb-4">
           Bubble size represents total population movement. Bottom-right quadrant indicates potential boom towns.
         </p>
@@ -211,7 +233,23 @@ export function PravasView({ migrationTickets }: PravasViewProps) {
         className="bg-card rounded-xl border overflow-hidden"
       >
         <div className="p-4 border-b">
-          <h3 className="font-semibold text-foreground">Migration Survey Data</h3>
+          <h3 className="font-semibold text-foreground mb-2">Migration Survey Data</h3>
+          <Accordion type="single" collapsible>
+            <AccordionItem value="info" className="border-none">
+              <AccordionTrigger className="text-sm text-muted-foreground hover:text-foreground py-2">
+                <div className="flex items-center gap-2">
+                  <HelpCircle className="w-4 h-4" />
+                  <span>What is Migration Survey Data?</span>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="text-sm text-muted-foreground pb-2">
+                Migration Survey Data tracks population movement patterns across India using Aadhaar enrollment and update statistics. 
+                This data helps identify areas experiencing significant demographic shifts, enabling government agencies to plan 
+                infrastructure, allocate resources, and adjust service delivery. Each survey record includes adult and child migration 
+                metrics, helping distinguish between temporary workforce migration and permanent family relocation.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </div>
         <div className="overflow-x-auto">
           <Table>

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Shield, AlertTriangle, TrendingUp } from 'lucide-react';
+import { Shield, AlertTriangle, TrendingUp, HelpCircle } from 'lucide-react';
 import {
   BarChart,
   Bar,
@@ -25,6 +25,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
 interface SatarkViewProps {
   actionTickets: ActionTicket[];
@@ -120,9 +126,27 @@ export function SatarkView({ actionTickets, complianceData, anomalySummary, summ
         transition={{ delay: 0.3 }}
         className="bg-card rounded-xl border p-6"
       >
-        <h3 className="font-semibold text-foreground mb-4">
-          Fraud Cases by Priority Level
-        </h3>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="font-semibold text-foreground">
+            Fraud Cases by Priority Level
+          </h3>
+        </div>
+        <Accordion type="single" collapsible className="mb-4">
+          <AccordionItem value="info" className="border-none">
+            <AccordionTrigger className="text-sm text-muted-foreground hover:text-foreground py-2">
+              <div className="flex items-center gap-2">
+                <HelpCircle className="w-4 h-4" />
+                <span>What does this show?</span>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className="text-sm text-muted-foreground pb-4">
+              This chart displays the distribution of fraud audit cases categorized by priority level (Critical, Medium, Low). 
+              Critical cases require immediate investigation and action, Medium cases need attention within standard timelines, 
+              and Low priority cases can be scheduled for routine review. The classification is based on anomaly confidence scores 
+              and potential impact on Aadhaar operations.
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
         <div className="h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData} layout="vertical">
@@ -160,7 +184,23 @@ export function SatarkView({ actionTickets, complianceData, anomalySummary, summ
         className="bg-card rounded-xl border overflow-hidden"
       >
         <div className="p-4 border-b">
-          <h3 className="font-semibold text-foreground">Fraud Audit Tickets</h3>
+          <h3 className="font-semibold text-foreground mb-2">Fraud Audit Tickets</h3>
+          <Accordion type="single" collapsible>
+            <AccordionItem value="info" className="border-none">
+              <AccordionTrigger className="text-sm text-muted-foreground hover:text-foreground py-2">
+                <div className="flex items-center gap-2">
+                  <HelpCircle className="w-4 h-4" />
+                  <span>What are Fraud Audit Tickets?</span>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="text-sm text-muted-foreground pb-2">
+                Fraud Audit Tickets are actionable alerts generated from our security monitoring system. Each ticket represents 
+                a detected anomaly or suspicious pattern in Aadhaar operations that requires field verification. These include 
+                unusual enrollment patterns, biometric mismatches, or data inconsistencies flagged by our automated fraud detection 
+                algorithms. Field officers can use the WhatsApp integration to quickly coordinate responses.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </div>
         <div className="overflow-x-auto">
           <Table>
