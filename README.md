@@ -47,14 +47,6 @@ src/
 ├── utils/             # Utility functions
 └── pages/             # Page components
 ```
-
-## Design System
-
-- **Primary Color**: Deep Navy (#000080) - Authority & Trust
-- **Accent Color**: Saffron (#FF9933) - Highlights & Alerts
-- **Background**: Clean Gray (#F3F4F6)
-- **Typography**: Inter font family
-
 ---
 
-© 2024 UIDAI - Government of India
+© 2026 UIDAI - Government of India
